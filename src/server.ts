@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from 'express';
-import userRouter from './routes/userRoutes.js';
-import sequelize from './config/database.js'; 
+import userRouter from './routes/userRoutes';
+import sequelize from './config/database'; 
 
 const app = express();
 const port = 3000;
@@ -54,4 +54,9 @@ try {
   console.error('Unable to connect to the database:', error);
 }
 
-sequelize.sync({ force: true });
+sequelize.sync().then() => {
+    console.log("base de données Synchro");
+    app.listen(port,() => {
+        console.log("serveur ok")
+    });
+};
