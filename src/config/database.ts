@@ -4,5 +4,6 @@ const sequelize = new Sequelize({
   storage: 'path/to/database.sqlite'
 });
 
+
 export default sequelize;
 
