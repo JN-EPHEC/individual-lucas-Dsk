@@ -7,8 +7,8 @@ interface User {
 }
 
 const users: User[] = [
-    { id: 1, name: "Alice" },
-    { id: 2, name: "Bob" },
+    { id: 1, prenom: "Lucas", nom: "Desbeek" },
+    { id: 2, prenom: "Manon", nom: "Colard" },
 ];
 
 router.get('/', (req: Request, res: Response) => {
@@ -31,5 +31,18 @@ router.post('/', (req: Request, res: Response) => {
     users.push(newUser);
     res.status(201).json(newUser);
 });
+
+router.delete('/:id', (req: Request, res: Response) => {
+    const id = parseInt(req.params.id);
+
+    const index = users.findIndex(u => u.id === id);
+    if (index !== -1) {
+        users.splice(index, 1); 
+        res.status(200).json({ message: "Utilisateur supprimé" });
+    } else {
+        res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+});
+
 
 export default router;

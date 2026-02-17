@@ -1,63 +1,73 @@
-document.addEventListener("DOMContentLoaded", function () {
+// Récupération des éléments HTML
+const listeUtilisateurs = document.getElementById("liste-utilisateurs");
+const formulaireUtilisateur = document.getElementById("form-utilisateur");
+const prenomInput = document.getElementById("prenom");
+const nomInput = document.getElementById("nom");
 
-    const liste = document.getElementById("liste-utilisateurs");
-    const formulaire = document.getElementById("form-utilisateur");
+// Fonction pour ajouter un utilisateur dans la liste HTML
+function ajouterUtilisateurDansListe(utilisateur) {
+    const li = document.createElement("li");
+    li.className = "list-group-item d-flex justify-content-between align-items-center mb-2 box"; // style Bulma
 
-    // Charger tous les utilisateurs depuis le backend au démarrage
-    async function chargerUtilisateurs() {
-        try {
-            const response = await fetch("/api/users");
-            const users = await response.json();
+    li.textContent = utilisateur.name || `${utilisateur.prenom} ${utilisateur.nom}`;
 
-            liste.innerHTML = ""; // vider la liste au démarrage uniquement
+    // bouton X pour supprimer
+    const btnSupprimer = document.createElement("button");
+    btnSupprimer.textContent = "X";
+    btnSupprimer.className = "btn btn-danger btn-sm";
 
-            users.forEach(user => {
-                ajouterUtilisateurDansListe(user);
-            });
-
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    // Ajouter un utilisateur dans la liste HTML
-    function ajouterUtilisateurDansListe(user) {
-        const li = document.createElement("li");
-        li.textContent = user.name; // utilise "name" du backend
-        li.classList.add("mb-2", "box"); // style Bulma
-        liste.appendChild(li);
-    }
-
-    // Gestion du formulaire pour ajouter un utilisateur
-    formulaire.addEventListener("submit", async function (e) {
-        e.preventDefault();
-
-        const prenom = document.getElementById("prenom").value.trim();
-        const nom = document.getElementById("nom").value.trim();
-
-        if (!prenom || !nom) return; // sécurité : champs vides
-
-        try {
-            const response = await fetch("/api/users", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ prenom, nom })
-            });
-
-            if (response.ok) {
-                const newUser = await response.json();
-                ajouterUtilisateurDansListe(newUser); // <- ajoute juste le nouvel utilisateur
-                formulaire.reset();                    // vider le formulaire
-            } else {
-                console.error("Erreur lors de l'ajout de l'utilisateur");
-            }
-
-        } catch (error) {
-            console.error(error);
-        }
+    btnSupprimer.addEventListener("click", async () => {
+        await fetch(`/api/users/${utilisateur.id}`, { method: "DELETE" });
+        li.remove(); // supprime juste cet élément sans recharger toute la liste
     });
 
-    // Charger les utilisateurs au démarrage
-    chargerUtilisateurs();
+    li.appendChild(btnSupprimer);
+    listeUtilisateurs.appendChild(li);
+}
 
+// Fonction pour charger et afficher tous les utilisateurs
+async function chargerUtilisateurs() {
+    try {
+        const res = await fetch("/api/users");
+        const utilisateurs = await res.json();
+
+        listeUtilisateurs.innerHTML = ""; // vider la liste au démarrage seulement
+
+        utilisateurs.forEach(utilisateur => ajouterUtilisateurDansListe(utilisateur));
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+// Soumission du formulaire → POST
+formulaireUtilisateur.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const prenom = prenomInput.value.trim();
+    const nom = nomInput.value.trim();
+
+    if (!prenom || !nom) return; // sécurité : champs vides
+
+    const nouvelUtilisateur = { prenom, nom };
+
+    try {
+        const res = await fetch("/api/users", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(nouvelUtilisateur)
+        });
+
+        if (res.ok) {
+            const utilisateurCree = await res.json();
+            ajouterUtilisateurDansListe(utilisateurCree); // ajoute juste le nouvel utilisateur
+            formulaireUtilisateur.reset();                // vide le formulaire
+        } else {
+            console.error("Erreur lors de l'ajout de l'utilisateur");
+        }
+    } catch (err) {
+        console.error(err);
+    }
 });
+
+// Charger les utilisateurs au démarrage
+chargerUtilisateurs();
