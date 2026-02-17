@@ -2,18 +2,14 @@ import express, { type Request, type Response } from 'express';
 import userRouter from './routes/userRoutes';
 import sequelize from './config/database'; 
 import './models/User';
-import path from 'path';
-
-
 
 const app = express();
 const port = 3000;
 
+// CORRECTION : placer express.json() avant les routes
+app.use(express.json());
+
 app.use('/api/users', userRouter);
-
-
-
-
 
 function greet(name: string): string {
     return `Hello, ${name}!`;
@@ -38,7 +34,7 @@ app.get('/api/data', (req: Request, res: Response) => {
 })
 
 app.get('/api/hello/:name', (req: Request, res: Response) => {
-    const name = req.params.name as string ;
+    const name = req.params.name as string;
 
     const response = {
         message: `Bonjour ${name}`,
@@ -55,9 +51,7 @@ sequelize.authenticate()
         console.error('Unable to connect to the database:', error);
     });
 
-
 app.use(express.static('public'));
-
 
 sequelize.sync().then(() => {
     console.log("base de données Synchro");
