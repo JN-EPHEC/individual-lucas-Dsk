@@ -2,6 +2,8 @@ import express, { type Request, type Response } from 'express';
 import userRouter from './routes/userRoutes';
 import sequelize from './config/database'; 
 import './models/User';
+import path from 'path';
+
 
 
 const app = express();
@@ -9,9 +11,7 @@ const port = 3000;
 
 app.use('/api/users', userRouter);
 
-app.get('/',(req: Request, res: Response) => {
-    res.send('Bienvenue sur mon serveur API')
-});
+
 
 
 
@@ -56,7 +56,7 @@ sequelize.authenticate()
     });
 
 
-app.use(express.json());
+app.use(express.static('public'));
 
 
 sequelize.sync().then(() => {
