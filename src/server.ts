@@ -47,12 +47,17 @@ app.get('/api/hello/:name', (req: Request, res: Response) => {
     res.json(response);
 });
 
-try {
-  sequelize.authenticate();
-  console.log('Connection has been established successfully.');
-} catch (error) {
-  console.error('Unable to connect to the database:', error);
-}
+sequelize.authenticate()
+    .then(() => {
+        console.log('Connection has been established successfully.');
+    })
+    .catch((error) => {
+        console.error('Unable to connect to the database:', error);
+    });
+
+
+app.use(express.json());
+
 
 sequelize.sync().then(() => {
     console.log("base de données Synchro");
