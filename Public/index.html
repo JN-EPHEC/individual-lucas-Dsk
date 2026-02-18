@@ -8,29 +8,31 @@
 </head>
 <body class="has-background-light">
 
-    <section class="section">
-        <div class="container">
-            <h1 class="title has-text-centered">Liste des Utilisateurs</h1>
+<section class="section">
+    <div class="container">
+        <h1 class="title has-text-centered">Liste des Utilisateurs</h1>
 
-            <ul id="liste-utilisateurs" class="box">
-            </ul>
+        <ul id="liste-utilisateurs" class="box"></ul>
 
-            <form id="form-utilisateur" class="mt-4">
-                <div class="field is-grouped">
-                    <div class="control is-expanded">
-                        <input type="text" class="input" id="prenom" placeholder="Prénom" required>
-                    </div>
-                    <div class="control is-expanded">
-                        <input type="text" class="input" id="nom" placeholder="Nom" required>
-                    </div>
-                    <div class="control">
-                        <button type="submit" class="button is-primary">Ajouter</button>
-                    </div>
+        <form id="form-utilisateur" class="mt-4">
+            <div class="field is-grouped">
+                <div class="control is-expanded">
+                    <input type="text" class="input" id="prenom" placeholder="Prénom" required>
                 </div>
-            </form>
-        </div>
-    </section>
+                <div class="control is-expanded">
+                    <input type="text" class="input" id="nom" placeholder="Nom" required>
+                </div>
+                <div class="control is-expanded">
+                    <input type="text" class="input" id="telephone" placeholder="Téléphone" required>
+                </div>
+                <div class="control">
+                    <button type="submit" class="button is-primary">Ajouter</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

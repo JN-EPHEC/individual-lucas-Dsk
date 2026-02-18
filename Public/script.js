@@ -1,73 +1,76 @@
-// Récupération des éléments HTML
 const listeUtilisateurs = document.getElementById("liste-utilisateurs");
 const formulaireUtilisateur = document.getElementById("form-utilisateur");
+
 const prenomInput = document.getElementById("prenom");
 const nomInput = document.getElementById("nom");
+const telephoneInput = document.getElementById("telephone");
 
-// Fonction pour ajouter un utilisateur dans la liste HTML
 function ajouterUtilisateurDansListe(utilisateur) {
     const li = document.createElement("li");
-    li.className = "list-group-item d-flex justify-content-between align-items-center mb-2 box"; // style Bulma
+    li.className = "box mb-2 is-flex is-justify-content-space-between is-align-items-center";
 
-    li.textContent = utilisateur.name || `${utilisateur.prenom} ${utilisateur.nom}`;
+    li.textContent = `${utilisateur.prenom} ${utilisateur.nom} - ${utilisateur.telephone}`;
 
-    // bouton X pour supprimer
     const btnSupprimer = document.createElement("button");
     btnSupprimer.textContent = "X";
-    btnSupprimer.className = "btn btn-danger btn-sm";
+    btnSupprimer.className = "button is-danger is-small";
 
     btnSupprimer.addEventListener("click", async () => {
         await fetch(`/api/users/${utilisateur.id}`, { method: "DELETE" });
-        li.remove(); // supprime juste cet élément sans recharger toute la liste
+        li.remove();
     });
 
     li.appendChild(btnSupprimer);
     listeUtilisateurs.appendChild(li);
 }
 
-// Fonction pour charger et afficher tous les utilisateurs
 async function chargerUtilisateurs() {
     try {
         const res = await fetch("/api/users");
         const utilisateurs = await res.json();
-
-        listeUtilisateurs.innerHTML = ""; // vider la liste au démarrage seulement
-
+        listeUtilisateurs.innerHTML = "";
         utilisateurs.forEach(utilisateur => ajouterUtilisateurDansListe(utilisateur));
     } catch (err) {
-        console.error(err);
+        alert("Erreur lors du chargement des utilisateurs");
     }
 }
 
-// Soumission du formulaire → POST
 formulaireUtilisateur.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const prenom = prenomInput.value.trim();
     const nom = nomInput.value.trim();
+    const telephone = telephoneInput.value.trim();
 
-    if (!prenom || !nom) return; // sécurité : champs vides
+    const telRegex = /^0[1-9][0-9]{7,8}$/;
+    if (!prenom || !nom || !telephone) {
+        alert("Tous les champs sont obligatoires");
+        return;
+    }
 
-    const nouvelUtilisateur = { prenom, nom };
+    if (!telRegex.test(telephone)) {
+        alert("Format téléphone invalide");
+        return;
+    }
 
     try {
         const res = await fetch("/api/users", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(nouvelUtilisateur)
+            body: JSON.stringify({ prenom, nom, telephone })
         });
 
-        if (res.ok) {
-            const utilisateurCree = await res.json();
-            ajouterUtilisateurDansListe(utilisateurCree); // ajoute juste le nouvel utilisateur
-            formulaireUtilisateur.reset();                // vide le formulaire
-        } else {
-            console.error("Erreur lors de l'ajout de l'utilisateur");
+        const data = await res.json();
+        if (!res.ok) {
+            alert(data.message || "Erreur serveur");
+            return;
         }
+
+        ajouterUtilisateurDansListe(data);
+        formulaireUtilisateur.reset();
     } catch (err) {
-        console.error(err);
+        alert("Erreur réseau");
     }
 });
 
-// Charger les utilisateurs au démarrage
 chargerUtilisateurs();
