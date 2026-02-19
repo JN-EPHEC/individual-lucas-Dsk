@@ -15,7 +15,6 @@ const users: User[] = [
 router.get("/", userController.getAllUsers);
 
 router.post('/', (req: Request, res: Response) => {
-    // CORRECTION : vérifier que req.body existe
     if (!req.body) {
         return res.status(400).json({ error: "Body missing" });
     }

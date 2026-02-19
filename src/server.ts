@@ -3,6 +3,7 @@ import { requestLogger } from './middlewares/logger';
 import userRouter from './routes/userRoutes';
 import sequelize from './config/database'; 
 import './models/User';
+import { errorHandler } from './middlewares/errorHandler';
 
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.static('public'));
 app.use(requestLogger);
 
 app.use('/api/users', userRouter);
+
 
 function greet(name: string): string {
     return `Hello, ${name}!`;
@@ -48,6 +50,9 @@ app.get('/api/hello/:name', (req: Request, res: Response) => {
     res.json(response);
 });
 
+app.use(errorHandler);
+
+
 sequelize.authenticate()
     .then(() => {
         console.log('Connection has been established successfully.');
@@ -55,6 +60,7 @@ sequelize.authenticate()
     .catch((error) => {
         console.error('Unable to connect to the database:', error);
     });
+
 
 
 sequelize.sync().then(() => {
