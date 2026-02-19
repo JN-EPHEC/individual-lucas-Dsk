@@ -1,13 +1,18 @@
 import express, { type Request, type Response } from 'express';
+import { requestLogger } from './middlewares/logger'; 
 import userRouter from './routes/userRoutes';
 import sequelize from './config/database'; 
 import './models/User';
 
+
 const app = express();
 const port = 3000;
 
-// CORRECTION : placer express.json() avant les routes
 app.use(express.json());
+
+app.use(express.static('public'));
+
+app.use(requestLogger);
 
 app.use('/api/users', userRouter);
 
@@ -51,7 +56,6 @@ sequelize.authenticate()
         console.error('Unable to connect to the database:', error);
     });
 
-app.use(express.static('public'));
 
 sequelize.sync().then(() => {
     console.log("base de données Synchro");
