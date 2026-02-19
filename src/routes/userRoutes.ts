@@ -1,4 +1,5 @@
 import { Router, type Request, type Response } from 'express';
+import * as userController from "../controllers/userController";
 const router = Router();
 
 interface User {
@@ -11,9 +12,7 @@ const users: User[] = [
     { id: 2, prenom: "Manon", nom: "Colard" },
 ];
 
-router.get('/', (req: Request, res: Response) => {
-    res.json(users);
-});
+router.get("/", userController.getAllUsers);
 
 router.post('/', (req: Request, res: Response) => {
     // CORRECTION : vérifier que req.body existe
