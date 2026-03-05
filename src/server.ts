@@ -4,6 +4,8 @@ import userRouter from './routes/userRoutes';
 import sequelize from './config/database'; 
 import './models/User';
 import { errorHandler } from './middlewares/errorHandler';
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./config/swagger";
 
 
 const app = express();
@@ -16,6 +18,8 @@ app.use(express.static('public'));
 app.use(requestLogger);
 
 app.use('/api/users', userRouter);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 function greet(name: string): string {

@@ -42,5 +42,17 @@ router.delete('/:id', (req: Request, res: Response) => {
     }
 });
 
+/**
+ * @swagger
+ * /api/users:
+ *   get:
+ *     summary: Récupère la liste des utilisateurs
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Succès
+ */
+router.get("/", userController.getAllUsers);
+
 
 export default router;
