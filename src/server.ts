@@ -6,6 +6,8 @@ import './models/User';
 import { errorHandler } from './middlewares/errorHandler';
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger";
+import cors from "cors";
+
 
 
 const app = express();
@@ -20,6 +22,8 @@ app.use(requestLogger);
 app.use('/api/users', userRouter);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.use(cors());
 
 
 function greet(name: string): string {
