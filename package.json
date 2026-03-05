@@ -1,5 +1,32 @@
 {
   "dependencies": {
     "sequelize": "^6.37.7"
-  }
+  },
+  "name": "dev3-backend-tp1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "concurrently": "x.y.z"
+  },
+  "scripts": {
+    "setup": "npm install --prefix server && npm install --prefix client",
+    "start:server": "npm run start --prefix server",
+    "start:client": "npm run dev --prefix client",
+    "dev": "concurrently \"npm run start:server\" \"npm run start:client\""
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JN-EPHEC/individual-lucas-Dsk.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/JN-EPHEC/individual-lucas-Dsk/issues"
+  },
+  "homepage": "https://github.com/JN-EPHEC/individual-lucas-Dsk#readme"
 }
+

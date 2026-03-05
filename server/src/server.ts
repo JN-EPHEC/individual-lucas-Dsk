@@ -1,79 +1,50 @@
 import express, { type Request, type Response } from 'express';
-import { requestLogger } from './middlewares/logger'; 
+import { requestLogger } from './middlewares/logger';
 import userRouter from './routes/userRoutes';
-import sequelize from './config/database'; 
+import sequelize from './config/database';
 import './models/User';
 import { errorHandler } from './middlewares/errorHandler';
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 
-
+// ES Modules __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = 3000;
 
+// Middleware
 app.use(express.json());
-
-app.use(express.static('public'));
-
+app.use(cors());
 app.use(requestLogger);
 
-app.use('/api/users', userRouter);
+// Servir les fichiers statiques
+app.use(express.static(path.join(__dirname, "../public")));
 
+// Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use(cors());
-
-
-function greet(name: string): string {
-    return `Hello, ${name}!`;
-}
-let message = greet("Lucas");
-console.log(message);
-
-interface Etudiant {
-    id: number;
-    nom: string;
-    prenom: string;
-}
-
-const etudiants: Etudiant[] = [
-    {id: 1, nom: "François", prenom: "Jean"},
-    {id: 2, nom: "Colard", prenom: "Manon"},
-    {id: 3, nom: "Docteur", prenom: "Mike"}
-];
-
-app.get('/api/data', (req: Request, res: Response) => {
-    res.json(etudiants);
-})
-
-app.get('/api/hello/:name', (req: Request, res: Response) => {
-    const name = req.params.name as string;
-
-    const response = {
-        message: `Bonjour ${name}`,
-        timestamp: new Date().toISOString()
-    };
-    res.json(response);
+// Route racine
+app.get("/", (req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
+// Routes API
+app.use('/api/users', userRouter);
+
+// Middleware d'erreurs
 app.use(errorHandler);
 
-
+// Connexion et synchro BDD
 sequelize.authenticate()
-    .then(() => {
-        console.log('Connection has been established successfully.');
-    })
-    .catch((error) => {
-        console.error('Unable to connect to the database:', error);
-    });
-
-
+    .then(() => console.log('Connexion DB réussie'))
+    .catch(err => console.error('Erreur connexion DB :', err));
 
 sequelize.sync().then(() => {
-    console.log("base de données Synchro");
-    app.listen(port,() => {
-        console.log("serveur ok")
-    });
+    console.log("Base de données synchronisée");
+    app.listen(port, () => console.log(`Serveur lancé sur http://localhost:${port}`));
 });
