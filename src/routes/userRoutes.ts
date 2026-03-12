@@ -1,5 +1,7 @@
 import { Router, type Request, type Response } from 'express';
 import * as userController from "../controllers/userController";
+import { checkIdParam } from "../middlewares/checkIdParam";
+
 const router = Router();
 
 interface User {
@@ -78,5 +80,7 @@ router.get("/", userController.getAllUsers);
  *         description: Champs manquants
  */
 router.post("/", userController.createUser);
+
+router.delete("/:id", checkIdParam, userController.deleteUser);
 
 export default router;
