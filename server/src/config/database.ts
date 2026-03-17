@@ -1,26 +1,27 @@
-const sequelize = process.env.DATABASE_URL
-? new Sequelize(process.env.DATABASE_URL, {
-dialect: "postgres",
-dialectOptions: {
-ssl: {
-require: true,
-rejectUnauthorized: false,
-},
-},
-logging: false,
-})
-: new Sequelize({
-username: process.env.DB_USER  "postgres",
-password: process.env.DB_PASSWORD,
-database: process.env.DB_NAME  "postgres",
-host: process.env.DB_HOST,
-port: Number(process.env.DB_PORT || 5432),
-dialect: "postgres",
-dialectOptions: {
-ssl: {
-require: true,
-rejectUnauthorized: false,
-},
-},
-logging: false,
-});
+import { Sequelize } from "sequelize";
+
+// Configuration directe pour Supabase
+const sequelize = new Sequelize(
+    "postgres", // nom DB
+    "postgres", // user
+    "Lucas.0606.DEV", // password
+    {
+        host: "db.oshkwntpyykzchxlpgcs.supabase.co",
+        port: 5432,
+        dialect: "postgres",
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false,
+            },
+        },
+        logging: false,
+    }
+);
+
+// Test de connexion
+sequelize.authenticate()
+    .then(() => console.log("✅ Connexion à la DB réussie !"))
+    .catch((err) => console.error("❌ Erreur connexion DB :", err));
+
+export default sequelize;
