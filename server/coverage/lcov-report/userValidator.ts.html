@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for password.ts</title>
+    <title>Code coverage report for userValidator.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="prettify.css" />
     <link rel="stylesheet" href="base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="index.html">All files</a> password.ts</h1>
+        <h1><a href="index.html">All files</a> userValidator.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/24</span>
+                <span class='fraction'>12/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">4% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/25</span>
+                <span class='fraction'>18/18</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.5% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/16</span>
+                <span class='fraction'>12/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -86,59 +86,53 @@
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const validatePassword = (pwd: string, userAge: number): boolean =&gt; {
-  <span class="missing-if-branch" title="else path not taken" >E</span>if (!pwd) return false; // Branch 1
-<span class="cstat-no" title="statement not covered" >  if (pwd.length &lt; 8) <span class="cstat-no" title="statement not covered" >return false; </span></span>// Branch 2
-<span class="cstat-no" title="statement not covered" >  if (pwd.length &gt; 20) <span class="cstat-no" title="statement not covered" >return false; </span></span>// Branch 3
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export function validateUserRegistration(age: number, role: string, email: string): boolean {
 &nbsp;
-  const hasUpperCase = <span class="cstat-no" title="statement not covered" >/[A-Z]/.test(pwd);</span>
-  const hasLowerCase = <span class="cstat-no" title="statement not covered" >/[a-z]/.test(pwd);</span>
-  const hasNumbers = <span class="cstat-no" title="statement not covered" >/[0-9]/.test(pwd);</span>
-  const hasSpecial = <span class="cstat-no" title="statement not covered" >/[^A-Za-z0-9]/.test(pwd);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  if (userAge &lt; 12) {</span>
-    // Enfant : règles souples
-<span class="cstat-no" title="statement not covered" >    if (!hasLowerCase) <span class="cstat-no" title="statement not covered" >return false; </span></span>// Branch 4
-<span class="cstat-no" title="statement not covered" >    return true;</span>
-  } else <span class="cstat-no" title="statement not covered" >if (userAge &gt;= 12 &amp;&amp; userAge &lt; 65) {</span>
-    // Adulte : règles strictes
-<span class="cstat-no" title="statement not covered" >    if (!hasUpperCase || !hasLowerCase || !hasNumbers) <span class="cstat-no" title="statement not covered" >return false; </span></span>// Branch 5 (complexe)
-<span class="cstat-no" title="statement not covered" >    if (!hasSpecial) <span class="cstat-no" title="statement not covered" >return false; </span></span>// Branch 6
-  } else {
-    // Senior : règles moyennes
-<span class="cstat-no" title="statement not covered" >    if (!hasNumbers &amp;&amp; !hasUpperCase) <span class="cstat-no" title="statement not covered" >return false; </span></span>// Branch 7
+  if (role !== "admin" &amp;&amp; role !== "user" &amp;&amp; role !== "stagiaire") {
+    throw new Error("Rôle invalide");
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return true; </span>// Branch final
-};
-&nbsp;</pre></td></tr></table></pre>
+  if (typeof age !== 'number') {
+    throw new Error("Âge invalide");
+  }
+&nbsp;
+  if (age &gt; 120) {
+    throw new Error("Âge invalide");
+  }
+&nbsp;
+  if (age &lt; 18 &amp;&amp; role !== "stagiaire") {
+    return false;
+  }
+&nbsp;
+  if (typeof email !== 'string' || !email.includes('@') || !email.includes('.')) {
+    return false;
+  }
+&nbsp;
+  return true;
+}</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

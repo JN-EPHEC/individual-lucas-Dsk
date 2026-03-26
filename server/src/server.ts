@@ -46,5 +46,5 @@ sequelize.authenticate()
 
 sequelize.sync().then(() => {
     console.log("Base de données synchronisée");
-    app.listen(port, () => console.log(`Serveur lancé sur http://localhost:${port}`));
+    app.listen(port, '0.0.0.0', () => console.log(`Serveur lancé sur http://0.0.0.0:${port}`));
 });

@@ -1,12 +1,14 @@
 import { Sequelize } from "sequelize";
 
+
+
 // Configuration directe pour Supabase
 const sequelize = new Sequelize(
     "postgres", // nom DB
-    "postgres", // user
+    "postgres.oshkwntpyykzchxlpgcs", // user
     "Lucas.0606.DEV", // password
     {
-        host: "db.oshkwntpyykzchxlpgcs.supabase.co",
+        host: "aws-1-eu-central-1.pooler.supabase.com",
         port: 5432,
         dialect: "postgres",
         dialectOptions: {
