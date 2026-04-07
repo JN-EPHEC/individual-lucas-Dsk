@@ -1,31 +1,59 @@
 import { useEffect, useState } from "react";
-// Définition d'une interface pour le typage
-// Sera couvert plus en profondeur en TH
-interface User {
-id: number;
-name: string;
-}
-function App() {
-// 1. Définition de l'état
-const [data, setData] = useState<User[]>([]);
-// 2. Appel API au montage du composant
-useEffect(() => {
-fetch("http://localhost:3000/api/users")
-.then(res => res.json())
-.then(result => setData(result))
-.catch(err => console.error(err));
-}, []);
-// 3. Rendu (JSX)
-return (
-<div>
-<h1>Liste des utilisateurs</h1>
-<ul>
-{data.map((item) => (
-<li key={item.id}>{item.prenom} {item.nom}</li>
-))}
-</ul>
-</div>
-);
-}
-export default App;
 
+type User = {
+  id: number;
+  prenom: string;
+  nom: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+function App() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(function () {
+    fetch("http://91.134.138.136:3000/api/users")
+      .then(function (res) {
+        if (!res.ok) {
+          throw new Error("Erreur HTTP: " + res.status);
+        }
+        return res.json();
+      })
+      .then(function (data) {
+        setUsers(data);
+        setLoading(false);
+      })
+      .catch(function (err) {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <p>Chargement...</p>;
+  }
+
+  if (error) {
+    return <p>Erreur: {error}</p>;
+  }
+
+  return (
+    <div>
+      <h1>Liste des utilisateurs</h1>
+
+      <ul>
+        {users.map(function (user) {
+          return (
+            <li key={user.id}>
+              {user.prenom} {user.nom}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
+export default App;

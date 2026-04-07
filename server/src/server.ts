@@ -9,6 +9,7 @@ import { swaggerSpec } from "./config/swagger";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
+import 'dotenv/config';
 
 // ES Modules __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -48,3 +49,5 @@ sequelize.sync().then(() => {
     console.log("Base de données synchronisée");
     app.listen(port, '0.0.0.0', () => console.log(`Serveur lancé sur http://0.0.0.0:${port}`));
 });
+
+console.log("URL =", process.env.DATABASE_URL);
